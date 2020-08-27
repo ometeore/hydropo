@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <title>Led</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'css/css.css' %}" rel="stylesheet">
+
+    </head>
+    <body>
+
+
+    <h1 class="text_center"> Système de gestion d'hydroponie </h1>
+
+
+
+    <div id="block_espace_admin" class="vertical_flex"> 
+    
+        <div class="horizontal_flex width_100" >
+            <form id="form_cat_select" action="{% url 'espace_admin:manage_cat' %}" method="post">
+                {{ formset.management_form }}
+                {% csrf_token %}
+    
+    
+                <table id="tableau_espace_admin" class="display" border='2' align="center">
+    
+                    <thead>
+                        <tr class="table_padding">
+                            <th class="table_padding">categorie</th>
+                            <th class="table_padding">inclure</th>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+    
+                        {% for form in formset %}
+    
+                            <tr class="magic_tr table_padding" id="{{ form.nom.value }}" style="display: none;">
+                                
+                                <td class="table_padding">
+                                    {{ form.begin.value }}
+                                    <div style="display: none;">{{ form.nom }}  </div>
+                                </td>
+    
+                                <td class="table_padding">
+                                    {{ form.insert }}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                </td>
+    
+                            </tr>
+    
+                        {% endfor %}
+    
+                    </tbody>
+    
+                </table>
+    
+            </form>
+                    <!-- 
+    
+                    -->
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+</html>

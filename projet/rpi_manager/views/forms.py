@@ -8,13 +8,19 @@ class TerminalControl(Form):
     message_to_send = forms.CharField(label="message a envoyer", max_length=100)
 
 class ManualMode(Form):
-    water_pump = forms.BooleanField()
-    solenoid_valve_ph = forms.BooleanField()
-    solenoid_valve_conduct = forms.BooleanField()
-    begin = forms.TimeField()#widget=forms.TimeInput(format='%H:%M'))
-    end = forms.TimeField()
+    water_pump = forms.BooleanField(required=False )
+    solenoid_valve_ph = forms.BooleanField(required=False )
+    solenoid_valve_conduct = forms.BooleanField(required=False )
+    begin = forms.TimeField(required=False )
+    end = forms.TimeField(required=False )
 
-class AddSchedule(ModelForm):
+
+class AddSchedule(Form):
+    begin = forms.TimeField()
+    end = forms.TimeField()
+    
+
+class SeeSchedule(ModelForm):
     #C'ets ici que je peux désactiver l'input de name
 
     class Meta:
@@ -30,4 +36,4 @@ class AddSchedule(ModelForm):
             },
         }
 
-ScheduleFormSet = modelformset_factory(WaterSchedule, form=AddSchedule)
+ScheduleFormSet = modelformset_factory(WaterSchedule, form=SeeSchedule)

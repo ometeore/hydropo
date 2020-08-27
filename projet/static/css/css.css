@@ -5,7 +5,11 @@
     display: flex;
     justify-content: space-around;
 }
-
+.v_flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 .pannel{
     border: 1px solid;
     padding: 10px;
@@ -19,9 +23,41 @@ h2{
     color:red;
 }
 #schedule_table{
-    border: 1px solid;
+    width:90%;
+    margin: auto;
 }
 
 td {
     border: 1px solid #333;
+}
+#last_ph_value{
+    font-size: 3em;
+}
+
+#schedule_table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+#schedule_table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+#schedule_table tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.double_time_input p input
+{
+    color: #2a2c2d;
+    font-size: 14px;
+    font-family: helvetica;
+    width: 180px;
 }

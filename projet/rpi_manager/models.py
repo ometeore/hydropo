@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm, Form, modelformset_factory
 from django import forms
 
 
@@ -7,9 +6,12 @@ class Rpi(models.Model):
     name = models.CharField(max_length=200)
 
 
-
 class WaterSchedule(models.Model):
+    begin = models.TimeField()
+    end = models.TimeField()
+    rpi = models.ForeignKey(Rpi, on_delete=models.CASCADE)
 
-    begin = models.TimeField()#widget=forms.TimeInput(format='%H:%M'))
-    end = models.TimeField()#widget=forms.TimeInput(format='%H:%M'))
+class Ph(models.Model):
+    date = models.DateTimeField()
+    value = models.FloatField()
     rpi = models.ForeignKey(Rpi, on_delete=models.CASCADE)

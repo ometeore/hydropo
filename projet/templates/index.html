@@ -3,9 +3,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Led</title>
+  <title>hydropilt</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link href="{% static 'css/css.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+
+  <script src="https://use.fontawesome.com/9562f6ad9a.js"></script>
 
 </head>
   <body>
@@ -15,55 +21,63 @@
     
 
       <div class="section h_flex">
+
         <div class="pannel" id="control_manual_pannel">
+
           <h2> mode manuel </h2>
 
           <form action="/" method="post">
-
-            {% csrf_token %}
-
-            {{ form.as_p }}
-            
+            {% if form %}
+              {% csrf_token %}
+              {{ form.as_p }}
+            {% endif %}
             <input id="submit" type="submit" value="Submit">
-
           </form>
+
         </div>
 
         <div class="pannel" id="last_measure_pannel">
 
           <h2> Dernières mesures </h2>
 
+          <div class="v_flex">
+            <p class="text_center" id="last_ph_value"> {{ last_ph.value }} </p>
+            <p class="text_center" id="last_ph_date"> {{ last_ph.date }} </p>
+          </div>
+
         </div>
 
       </div>
 
       <div class="section">
+        <div class="h_flex">
+          <h2 class="text_center"> Planificateur  </h2>
+          <div class="v_flex">
+            <a class="color_white" href="{% url 'rpi:add_schedule' %}"><i class="fas fa-plus-circle"></i> ajouter un horaire</a>
+          </div>
+        </div>
 
-        <h2> Planificateur  </h2>
-        <table id="schedule_table">
+        <table id="schedule_table" class="text_center">
           <thead>
               <tr>
-                  <th>begin</th>
-                  <th>end</th>
+                  <th>debut</th>
+                  <th>fin</th>
+                  <th>supprimer</th>
               </tr>
           </thead>
           <tbody>
-            {% if true %}
-              <tr> okkkk </tr>
-            {% endif %}
-              {% for times in schedule_list %}
+          
+            {% for times in schedule_list %}
+              <tr>
+                <td>{{ times.begin }}</td>  
+                <td>{{ times.end }}</td>
+                <td> <a class="color_white" href="{% url 'rpi:delete_schedule' %}?pk={{times.pk}}"><i class="fas fa-trash-alt"></i></a> </td>
+              </tr>
+            {% endfor %}
 
-            <td>
-
-                <tr> {{ times.begin }} </tr> 
-                <tr> {{ times.end }} </tr> 
-
-
-            </td>
-  
-          {% endfor %}
           </tbody>
-      </table>
+        </table>
+
 
       </div>
 
@@ -77,6 +91,13 @@
 
 
   </body>
+
+    <script>
+      function delete_id(id) {
+        var url = "";
+        window.location.href = url + '/' + id;
+      }
+    </script>
 
   <script>
 

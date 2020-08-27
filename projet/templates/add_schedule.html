@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <title>Led</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'css/css.css' %}" rel="stylesheet">
+
+    </head>
+    <body>
+
+
+    <h1 class="text_center"> Système de gestion d'hydroponie </h1>
+    
+    <div class="section">
+
+      <form action="{% url 'rpi:add_schedule' %}" method="post">
+        {% if form %}
+          {% csrf_token %}
+          <div class="double_time_input h_flex">
+            {{ form.as_p }}
+          </div>
+        {% endif %}
+        <input id="submit" type="submit" value="Submit" style="margin: auto;display: flex;">
+      </form>
+
+    </div>
+    </body>
+</html>

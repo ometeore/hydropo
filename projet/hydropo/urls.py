@@ -6,6 +6,7 @@ from rpi_manager.views import index
 urlpatterns = [
     path("", index.index, name="index"),
     path('admin/', admin.site.urls),
+    path("rpi/", include("rpi_manager.urls")),
 ]
 
 if settings.DEBUG:
