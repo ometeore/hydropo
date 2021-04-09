@@ -1,0 +1,38 @@
+{% extends 'head_and_foot.html' %}
+{% block content %}
+
+<!--    This page contain the screen and the form for user to login-->
+
+
+
+<section id="main_container" class="v_flex" style="height: 90vh;">
+
+    {% if invalid %}
+    
+    <div> identifiant ou mot de passe incorect </div>
+
+    {% endif %}
+
+    <form action="{% url 'user:connexion' %}" method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="connexion" style="display:block; margin:auto; margin-top: 15px;">
+
+    </form>    
+
+</section>
+
+<script>
+    var labs = document.getElementsByTagName('label');
+    for(i=0;i<labs.length;i++){
+        labs[i].className="label_conexion";
+    }
+</script>
+{% endblock %}

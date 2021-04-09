@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'channels',
     'socket_connection.apps.SocketConnectionConfig',
     'rpi_manager.apps.RpiManagerConfig',
+    'user.apps.UserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,6 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
 ]
+
+AUTH_USER_MODEL = "user.MyUser"
+
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -102,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 TIME_ZONE = 'UTC'
 
@@ -113,6 +117,8 @@ USE_L10N = True
 USE_TZ = True
 
 DEFAULT_CHARSET = 'utf-8'
+
+TIME_INPUT_FORMATS = ('%H:%M',)
 
 
 # Pour debug toolbar

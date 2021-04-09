@@ -16,7 +16,7 @@
     
     <div class="section">
 
-      <form action="{% url 'rpi:add_schedule' %}" method="post">
+      <form action="{% url 'rpi:add_schedule' %}?categori={{categori}}&rpi_active={{rpi_active}}" method="post">
         {% if form %}
           {% csrf_token %}
           <div class="double_time_input h_flex">

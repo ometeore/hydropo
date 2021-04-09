@@ -4,8 +4,10 @@ from django.forms import modelformset_factory, ModelForm
 from django import forms
 
 
-class TerminalControl(Form):
-    message_to_send = forms.CharField(label="message a envoyer", max_length=100)
+class PhEc(Form):
+    ph = forms.FloatField(min_value=0, max_value=14, required=False, widget=forms.TextInput)
+    ec = forms.IntegerField(min_value=0, required=False, widget=forms.TextInput)
+
 
 class ManualMode(Form):
     water_pump = forms.BooleanField(required=False )

@@ -24,20 +24,15 @@ class SocketConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        print("a recu un message est rentré dans receive du consumer")
-        # Send message to room group
-        await self.channel_layer.group_send(
-            
-            "group0",
-            {
-                'type': 'chat_message',
-                'message': text_data
-            }
-        )
+        print(text_data)
+
 
     async def send_message(self, message):
+        print("message a envoyer:")
         print(message)
-        # Send message to WebSocket
-        #self.send(message) #'SocketConsumer' object has no attribute 'base_send' surement (async or sync pb)
-        await self.send(message['message'])
-        print("ca plante avant")
+        message_to_send = {
+            "message": message
+        }
+        j = json.dumps(message_to_send)
+        print(j)
+        await self.send(j)

@@ -1,0 +1,105 @@
+{% extends 'head_and_foot.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="block_content">
+    <div id="main_container">
+        <div id="home_titre">
+            <h1 id="home_main_titre">Faites votre hydroponie avec hydroPi!</h1>
+        </div>
+
+        <div class="home_section">
+
+            <div class="home_div_h2">
+                <h2> 1) Présentation </h2>
+            </div>
+
+
+            <div class="home_div_h3">
+                <h3> 1.1) objectif </h3>
+                <p>
+                    L'objectif d'hydropi est de proposer une interface serveur pour systèmes hydroponiques. Permettant d'automatiser les différents appareils de votre culture hydroponique. 
+                </p>
+            </div>
+    
+            <div class="home_div_h3">
+                <h3> 1.2) Matériel nécessaire </h3>
+                <div> 
+                    Un certain nombre d'outil est nécessaire pour réaliser ce projet:
+                    <ul>
+                        <li> un RaspberryPi (il sera nécéssaire d'avoir un écran) en fonction du modèle celui ci nécessitera aussi un adaptateur</li>
+                        <li> une pompe à eau </li>
+                        <li> un CAD (j'ai ici fait le choix d'un MCP3008)</li>
+                        <li> une sonde Ph</li>
+                        <li> une sonde EC</li>
+                        <li> une lampe de culture </li>
+                        <li> deux électrovannes </li>
+                        <li> une(ou plusieurs éventuellemnt) alimentations au voltage correspondant à votre lampe, pompe et électrovannes (pour ma part je n'utilise qu'une alimentation 12V).</li>
+                        <li> 4 relais de 5V </li>
+                        <li> 4 diodes </li>
+                        <li> 4 transistor NPN (pour ma part j'ai utilisé des BC337 </li>
+                        <li> au moins 5 résistances 1k ohm, et autant de 330 ohm</li>
+                        <li> un ensembles de DEL (de couleurs différentes est souhaitables)</li>
+                        <li> une bobines de cables électrique (deux couleur serait souhaitable pour éviter de vous mélanger).</li>
+                    </ul>
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="home_section">
+
+            <div class="home_div_h2">
+                <h2> 2) Montage électrique </h2>
+            </div>
+
+            <div class="home_div_h3">
+                <h3> 2.1) schéma électrique du montage </h3>
+            </div>
+
+            <div class="home_content">
+                <img id="electric_schema" src="{% static 'images/schema_elec.jpeg' %}" alt="logo">
+            </div>
+    
+            <div class="home_div_h3">
+                <h3> 2.2) Détails du schéma </h3>
+                <p>
+                    Le schéma électrique ci dessus doit impérativement être branché avec votre Raspberry éteinte.
+                    La partie en haut à droite encerclé en rouge correspond aux différents circuits de puissances. 
+                    Vous pourrez remplacer le moteur par vos composant nécessitant un voltage supérieur à 5V et bien entendue les associer avec vos alimentations correspondantes.
+                    La partie en haut à gauche correspond à la partie analyse analogique, plus qu'un long discours je vous renvoi <a href="https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/mcp3008">ici</a>
+                    ou ils vous montreront vos choix pour connecter des entrées analogique à la RPi.
+                    Enfin la partie entouré en jaunes correspond aux circuits de LEDs.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="home_section">
+
+            <div class="home_div_h2">
+                <h2> 3) Conexion au serveur </h2>
+            </div>
+
+            <div class="home_div_h3">
+                <h3> 3.1) Creer votre compte </h3>
+                <p> La première étape consiste à rentrer vos informations personelles dans la rubrique insciption</p>
+            </div>
+    
+            <div class="home_div_h3">
+                <h3> 3.2) Conexion à la RPi </h3>
+            </div>
+
+        </div>
+
+        <div class="home_section">
+
+            <div class="home_div_h2">
+                <h2> 4) Botanique </h2>
+            </div>
+            <p>DIY</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

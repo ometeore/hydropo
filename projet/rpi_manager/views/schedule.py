@@ -1,63 +1,77 @@
 from django.shortcuts import render, get_object_or_404
-from rpi_manager.models import WaterSchedule, Ph, Rpi
-from .forms import AddSchedule, ScheduleFormSet, ManualMode
+from rpi_manager.models import WaterSchedule, Ph, Rpi, Ec, LightSchedule
+from .forms import AddSchedule, ScheduleFormSet, ManualMode, PhEc
 
 def add(request):
+    rpi_active = request.GET["rpi_active"]
 
     if request.method == "POST":
         form = AddSchedule(request.POST)
         if form.is_valid():
-            rpi = get_object_or_404(Rpi, pk = 1)
-            ph = WaterSchedule.objects.create(begin=request.POST["begin"], end=request.POST["end"], rpi=rpi)
-            ph.save()
-            schedule = list(WaterSchedule.objects.filter(rpi_id = 1))
-            last_ph = Ph.objects.latest('date')
+            # metre la rpi de l'utilisateur
+            rpi = get_object_or_404(Rpi, pk = request.GET["rpi_active"])
+
+            if(request.GET["categori"] == "water"):
+                if rpi.compare_time(request.POST["begin"], request.POST["end"], True):
+                    schedule = WaterSchedule.objects.create(begin=request.POST["begin"], end=request.POST["end"], rpi=rpi)
+                    schedule.save()
+                    rpi.broadcast()
+                else:
+                    #### page pour dire que le schedule entre en conflit avec les previous schedule
+                    print("schedule non valide")
+
+            if(request.GET["categori"] == "lights"):
+                if rpi.compare_time(request.POST["begin"], request.POST["end"], False):
+                    schedule = LightSchedule.objects.create(begin=request.POST["begin"], end=request.POST["end"], rpi=rpi)
+                    schedule.save()
+                    rpi.broadcast()
+                else:
+                    #### page pour dire que le schedule entre en conflit avec les previous schedule
+                    print("schedule non valide")
+
+            userlog = request.user
+            user_rpi = userlog.rpi.all()
+            phec = PhEc()
+
             context_dict = {
-                "schedule_list" : schedule,
-                "last_ph": last_ph,
+                "rpi" : user_rpi,
+                "form_phec" : phec
             }
-            motor_form = ManualMode()
-            context_dict.update({"form":motor_form})
-            return render(request, 'index.html', context = context_dict)
+
+            return render(request, 'hydro.html', context = context_dict)
         
         else:
             errors = form.errors
 
-            return render(request, 'add_schedule.html', {"form": form, "errors": errors})
+            return render(request, 'schedule/add_schedule.html', {"form": form, "errors": errors})
 
     else:
         form = AddSchedule()
-        return render(request, 'add_schedule.html', {"form": form})
+        return render(request, 'schedule/add_schedule.html', {"form": form, "categori": request.GET["categori"], "rpi_active": request.GET["rpi_active"]})
 
 
-
-def show(request):
-    if request.method == "POST":
-        formset = ScheduleFormSet(data=request.POST)
-
-        if formset.is_valid():
-            for form in formset:
-                print("le formset est valide")
-
-        else:
-            print(formset.errors)
-
-    else:
-        schedule = WaterSchedule.objects.all()
-        formset=ScheduleFormSet(queryset=schedule)
-    return render(request, 'schedule.html', {'formset':formset})
 
 def delete(request):
 
-    del_schedule = get_object_or_404(WaterSchedule, pk = request.GET["pk"])
+    rpi = get_object_or_404(Rpi, pk = request.GET["rpi"])
+
+
+    #Detect wich type of schedule need to be delete
+    if(request.GET["categori"] == "water"):
+        del_schedule = get_object_or_404(WaterSchedule, pk = request.GET["pk"])
+    else:
+        del_schedule = get_object_or_404(LightSchedule, pk = request.GET["pk"])
     del_schedule.delete()
-    schedule = list(WaterSchedule.objects.filter(rpi_id = 1))
-    last_ph = Ph.objects.latest('date')
+    rpi.broadcast()
+
+    userlog = request.user
+    user_rpi = userlog.rpi.all()
+
     context_dict = {
-        "schedule_list" : schedule,
-        "last_ph": last_ph,
+        "rpi" : user_rpi,
     }
+
     motor_form = ManualMode()
     context_dict.update({"form":motor_form})
-    return render(request, 'index.html', context = context_dict)
+    return render(request, 'hydro.html', context = context_dict)
 

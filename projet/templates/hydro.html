@@ -1,0 +1,174 @@
+{% extends 'head_and_foot.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+    <h1 class="text_center"> Système de gestion d'hydroponie </h1>
+
+    <ul class="h_flex">
+
+      {% for rpi in rpi %}
+        <li><a id="{{rpi.name}}" onclick="ShowOnglet(this.id)">{{ rpi.name }}</a> </li>
+      {% endfor %}
+
+    </ul>
+
+
+    {% for rpi in rpi %}
+      <div id="onglet_{{rpi.name}}" class="onglet">
+        <div class="section h_flex">
+
+          <div class="pannel" id="control_manual_pannel">
+
+            <div class="h_flex">
+              <h2> mode manuel </h2>
+              
+              <label class="rocker rocker-small">
+                <input type="checkbox" id="manual_mode_{{rpi.pk}}" class="manual_mode" onclick="disable_inputs({{rpi.pk}})">
+                <span class="switch-left">Yes</span>
+                <span class="switch-right">No</span>
+              </label>
+            </div>
+
+            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+              <p> pompe a eau </p>
+              
+              <label class="rocker rocker-small">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="water_{{rpi.pk}}" onclick="recupId(this.id)">
+                <span class="switch-left">On</span>
+                <span class="switch-right">Off</span>
+              </label>
+            </div>
+
+            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+              <p> lumière </p>
+              
+              <label class="rocker rocker-small">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="lights_{{rpi.pk}}" onclick="recupId(this.id)">
+                <span class="switch-left">On</span>
+                <span class="switch-right">Off</span>
+              </label>
+            </div>
+
+            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+              <p> ev pH </p>
+              
+              <label class="rocker rocker-small">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="ph_{{rpi.pk}}" onclick="recupId(this.id)">
+                <span class="switch-left">On</span>
+                <span class="switch-right">Off</span>
+              </label>
+            </div>
+
+            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+              <p> ev EC </p>
+              
+              <label class="rocker rocker-small">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="ec_{{rpi.pk}}" onclick="recupId(this.id)">
+                <span class="switch-left">On</span>
+                <span class="switch-right">Off</span>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="pannel" id="last_measure_pannel">
+
+            <h2> Dernières mesures </h2>
+
+            <div class="v_flex">
+              <p class="text_center" id="last_values"> ph: {{ rpi.ph.last.value }} </p>
+              <p class="text_center" id="last_dates"> {{ rpi.ph.last.date }} </p>
+              <p class="text_center" id="last_values"> ec: {{ rpi.ec.last.value }} </p>
+              <p class="text_center" id="last_dates"> {{ rpi.ec.last.date }} </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="section">
+          <div class="h_flex">
+            <h2 class="text_center"> Planificateur  </h2>
+          </div>
+
+
+
+          <!-- WATER SCHEDULE -->
+
+          <div class="h_flex">
+            <h2 class="text_center"> Pompe à eau  </h2>
+            <div class="v_flex">
+              <a class="color_white" href="{% url 'rpi:add_schedule' %}?categori=water&rpi_active={{rpi.pk}}"><i class="fas fa-plus-circle"></i> ajouter un horaire</a>
+            </div>
+          </div>
+
+          <table id="schedule_table" class="text_center">
+            <thead>
+                <tr>
+                    <th>debut</th>
+                    <th>fin</th>
+                    <th>supprimer</th>
+                </tr>
+              </thead>
+            <tbody>
+            
+              {% for times in rpi.water.all %}
+                <tr>
+                  <td>{{ times.begin }}</td>  
+                  <td>{{ times.end }}</td>
+                  <td> <a class="color_white" href="{% url 'rpi:delete_schedule' %}?pk={{times.pk}}&categori=water&rpi={{rpi.pk}}"><i class="fas fa-trash-alt"></i></a> </td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+          <div class="h_flex">
+            <h2 class="text_center"> Lumières </h2>
+            <div class="v_flex">
+              <a class="color_white" href="{% url 'rpi:add_schedule' %}?categori=lights&rpi_active={{rpi.pk}}"><i class="fas fa-plus-circle"></i> ajouter un horaire</a>
+            </div>
+          </div>
+
+          <!-- LIGHTS SCHEDULE -->
+
+          <table id="schedule_table" class="text_center">
+            <thead>
+                <tr>
+                    <th>debut</th>
+                    <th>fin</th>
+                    <th>supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+              {% for times in rpi.lights.all %}
+                <tr>
+                  <td>{{ times.begin }}</td>  
+                  <td>{{ times.end }}</td>
+                  <td> <a class="color_white" href="{% url 'rpi:delete_schedule' %}?pk={{times.pk}}&categori=lights&rpi={{rpi.pk}}"><i class="fas fa-trash-alt"></i></a> </td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+          <!-- form for ph and EC -->
+          <div class="v_flex">
+            <form action="{% url 'rpi:gestion' %}?rpi_active={{rpi.pk}}" method="post">
+              {% csrf_token %}
+              {{ form_phec.as_p }}
+              <input type="submit" value="Valider pH et Ec">
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </body>
+
+
+{% endblock %}
+

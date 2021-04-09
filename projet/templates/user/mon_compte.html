@@ -1,0 +1,57 @@
+{% extends 'head_and_foot.html' %}
+{% block content %}
+
+<section id="" class="v_flex" style="margin-top: 50px;">
+
+    {% if user.is_authenticated %}
+    
+    <div style="width: 80%;">
+        <h1 class="text_center">
+          {{ user.first_name }}
+          {{ user.last_name }}
+        </h1>
+
+        <!-- Gestion des Rpis -->
+
+        <div class="h_flex">
+            <h2 class="text_center"> Vos Raspberry </h2>
+            <div class="v_flex">
+              <a class="color_white" href="{% url 'user:add_rpi' %}"><i class="fas fa-plus-circle"></i> ajouter une Raspberry</a>
+            </div>
+        </div>
+        
+        <table id="schedule_table" class="text_center">
+            <thead>
+                <tr>
+                    <th>nom</th>
+                    <th>modifier</th>
+                    <th>supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+              {% for elm in user_rpi %}
+                <tr>
+                  <td>{{ elm.name }}</td>  
+                  <td> <a class="color_white" href="{% url 'user:rpi_update' %}?pk={{elm.pk}}"><i class="fas fa-edit"></i></a> </td>
+                  <td> <a class="color_white" href="{% url 'user:rpi_delete' %}?pk={{elm.pk}}"><i class="fas fa-trash-alt"></i></a> </td>
+                </tr>
+              {% endfor %}
+  
+            </tbody>
+          </table>
+
+
+          
+    </div>
+
+
+    {% else %}
+
+        <p>Vous n'êtes pas authentifier.</p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
