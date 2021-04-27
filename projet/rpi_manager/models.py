@@ -7,7 +7,8 @@ from asgiref.sync import async_to_sync
 
 class Rpi(models.Model):
     name = models.CharField(max_length=200)
-
+    md5_name = models.CharField(max_length=200)
+    last_connect = models.DateTimeField()
 
 #plutot que de comparer des str sources de bugs
 # import datetime
@@ -46,7 +47,7 @@ class Rpi(models.Model):
 
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            "group0",
+            md5_name,
             {
                 "type": "send_message",
                 "message": message
@@ -60,7 +61,7 @@ class Rpi(models.Model):
         
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            "group0",
+            md5_name,
             {
                 "type": "send_message",
                 "message": message
