@@ -2,11 +2,22 @@ import json
 import channels
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
+from rpi_manager.models import Rpi
+
+######### ici import rpi dans connect is connect 
+
+######### pour is connect on doit attendre dans tous les salons
+# for chat_name in chats:
+#     await channel_layer.group_send(
+#         chat_name,
+#         {"type": "chat.system_message", "text": announcement_text},
+#     )
 
 class SocketConsumer(AsyncWebsocketConsumer):
-
-
+    # for rpi in Rpi.objects.all():
+    #     client_list.append()
     async def connect(self):
+        
         await self.channel_layer.group_add(
             "group0",
             self.channel_name
@@ -34,5 +45,4 @@ class SocketConsumer(AsyncWebsocketConsumer):
             "message": message
         }
         j = json.dumps(message_to_send)
-        print(j)
         await self.send(j)

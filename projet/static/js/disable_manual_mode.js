@@ -1,44 +1,25 @@
-function disable_inputs(id) { 
+function first_hide(){
 
-    var checkBox = document.getElementById("manual_mode_" + id);
-    var elmts = document.getElementsByClassName('disable_input_block_' + id);
-    console.log(elmts + elmts.length)
-    var inputs = document.getElementsByClassName('disable_input_' +id);
+    url = window.location.search;
+    const urlParams = new URLSearchParams(url);
+    var elmts = document.getElementsByClassName('hide');
+    for(var i=0;i<elmts.length;i++)
+    {
+        elmts[i].style.display='none';
+    }
 
-    // If the checkbox is checked, display the output text
-    if (checkBox.checked == true){
+    if(urlParams.has('manual')){
+        id_elm = urlParams.get('id');
+        elmts = document.getElementsByClassName('disable_input_block_' + id_elm);
         for(var i=0;i<elmts.length;i++)
         {
             elmts[i].style.display='flex';
         }
-    } else {
-        for(var i=0;i<elmts.length;i++)
-        {
-            elmts[i].style.display='none';
-        }
-        for(var i=0;i<inputs.length;i++)
-        {
-            inputs[i].checked=false;
-        }
-    }
-}
-
-function first_hide(){
-    var elmts = document.getElementsByClassName('hide');
-    var quer = window.location.search;
-    console.log(quer);
-    parameters = new URLSearchParams(quer);
-    if(parameters.has('manual')){
-        var checkBox_true = document.getElementById(parameters.get('tool'));
-        checkBox_true.checked = true;
-        id = checkBox_true.className.substr(14);
-        checkBox_manual = document.getElementById("manual_mode_" + id);
-        checkBox_manual.checked = true;
-    }
-    else{
-        for(var i=0;i<elmts.length;i++)
-        {
-            elmts[i].style.display='none';
+        var checkBox = document.getElementById("manual_mode_" + id_elm);
+        checkBox.checked = true;
+        if(urlParams.has('tool')){
+            var checkBox = document.getElementById(urlParams.get('tool')+ '_' + id_elm);
+            checkBox.checked = true;
         }
     }
 }
@@ -48,6 +29,26 @@ function first_hide(){
 first_hide();
 
 
+
+
+function switch_manual_mode(id) { 
+
+    var checkBox = document.getElementById("manual_mode_" + id);
+
+    // If the checkbox is checked, display the output text
+    if (checkBox.checked == true){
+        var url_to_send = '/rpi/gestion?manual=True&id=' + id;
+        window.location.href = url_to_send;
+    }
+    if(checkBox.checked == false) {
+        var url_to_send = '/rpi/gestion';
+        window.location.href = url_to_send;
+    }
+}
+
+
+
+
 function recupId(id) {
     var checkBox_true = document.getElementById(id);
     var checkBox_false = document.getElementsByClassName(checkBox_true.className);
@@ -55,7 +56,7 @@ function recupId(id) {
         checkBox_false[i].checked = false;
     }
     checkBox_true.checked = true;
-
-    var url_to_send = '/rpi/gestion?manual=on&tool=' + id;
+    res = id.split('_')
+    var url_to_send = '/rpi/gestion?manual=True&tool=' + res[0] + '&id=' + res[1];
     window.location.href = url_to_send;
 }

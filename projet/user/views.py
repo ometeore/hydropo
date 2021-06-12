@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from user.models import MyUser
 from rpi_manager.models import Rpi
 from .forms import Connexion, Creation, CreationRpi
@@ -40,9 +39,22 @@ def mon_compte(request):
     user_rpi = userlog.rpi.all()
     return render(request, "user/mon_compte.html", {"user_rpi": user_rpi})
 
+
+
+
 def create(request):
     form = Creation(request.POST)
     if form.is_valid():
+
+        # Check if user exists with email
+        try:
+            alt_user = MyUser.objects.get(email=form.cleaned_data.get("email"))
+            err = "Email already in use"
+            return render(request, 'message/error.html', {'issue':err+str("<br> Signup again.")})
+        except Exception as e:
+            print("[LOG] No issue with new user setup")
+            print(e)
+
         if form.cleaned_data["confirm_password"] == form.cleaned_data["password"]:
             user = MyUser.objects.create_user(form.cleaned_data["Username"])
             user.set_password(form.cleaned_data["password"])
@@ -54,6 +66,9 @@ def create(request):
         else:
             render(request, "user/creation.html", {"form": form})
     return render(request, "user/creation.html", {"form": form})
+
+
+
 
 
 def deconnexion(request):

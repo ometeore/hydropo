@@ -15,7 +15,7 @@ def add(request):
                 if rpi.compare_time(request.POST["begin"], request.POST["end"], True):
                     schedule = WaterSchedule.objects.create(begin=request.POST["begin"], end=request.POST["end"], rpi=rpi)
                     schedule.save()
-                    rpi.broadcast()
+                    rpi.broadcast_schedule()
                 else:
                     #### page pour dire que le schedule entre en conflit avec les previous schedule
                     print("schedule non valide")
@@ -24,7 +24,7 @@ def add(request):
                 if rpi.compare_time(request.POST["begin"], request.POST["end"], False):
                     schedule = LightSchedule.objects.create(begin=request.POST["begin"], end=request.POST["end"], rpi=rpi)
                     schedule.save()
-                    rpi.broadcast()
+                    rpi.broadcast_schedule()
                 else:
                     #### page pour dire que le schedule entre en conflit avec les previous schedule
                     print("schedule non valide")
@@ -62,7 +62,7 @@ def delete(request):
     else:
         del_schedule = get_object_or_404(LightSchedule, pk = request.GET["pk"])
     del_schedule.delete()
-    rpi.broadcast()
+    rpi.broadcast_schedule()
 
     userlog = request.user
     user_rpi = userlog.rpi.all()

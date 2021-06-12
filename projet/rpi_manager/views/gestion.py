@@ -16,12 +16,18 @@ def hydropo_gestion(request):
 
     # check if the user have a rpi linked to his account
     if not user_rpi:
-        return render(request, 'message/no_rpi_associated.html')
+        err = "No Rpi associated yet!"
+        return render(request, 'message/error.html',{'issue':err})
     else:  
         context_dict = {
             "rpi" : user_rpi,
         }
 
+        if request.method == "GET":
+            if request.GET.get("manual", False):
+                if request.GET.get("tool", None) is not None:
+                    rpi = get_object_or_404(Rpi, pk = request.GET["id"])
+                    rpi.broadcast_manual(request.GET["tool"])
         ################################################
         # the only form here is the one to change EC and Ph
         # if multiple rpi the id of the one is send on get as rpi_active
@@ -63,9 +69,9 @@ def hydropo_gestion(request):
                             objectif = True,
                             rpi = rpi
                         )
-                        new_ec.save()
+                        new_ec.save() 
                 
-                rpi.broadcast()
+                rpi.broadcast_schedule()
 
             ####### formulary problem create a page here ######
             else:

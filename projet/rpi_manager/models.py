@@ -9,6 +9,7 @@ class Rpi(models.Model):
     name = models.CharField(max_length=200)
     md5_name = models.CharField(max_length=200)
     last_connect = models.DateTimeField()
+    is_conected = models.BooleanField()
 
 #plutot que de comparer des str sources de bugs
 # import datetime
@@ -31,7 +32,7 @@ class Rpi(models.Model):
         return True 
     
 
-    def broadcast(self):
+    def broadcast_schedule(self):
         message = {}
         message["manual"] = False
         schedule_water_list = [[str(elm.begin), str(elm.end)] for elm in self.water.all()]
@@ -47,21 +48,21 @@ class Rpi(models.Model):
 
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            md5_name,
+            self.md5_name,
             {
                 "type": "send_message",
                 "message": message
             }
         )
 
-    def manual(self, options):
+    def broadcast_manual(self, tool):
         message = {}
         message["manual"] = True
-        message["option"] = options
-        
+        message["tool"] = tool
+        print(message)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            md5_name,
+            self.md5_name,
             {
                 "type": "send_message",
                 "message": message
