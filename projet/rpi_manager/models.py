@@ -7,7 +7,7 @@ from asgiref.sync import async_to_sync
 
 class Rpi(models.Model):
     name = models.CharField(max_length=200)
-    md5_name = models.CharField(max_length=200)
+    uid_name = models.CharField(max_length=200)
     last_connect = models.DateTimeField()
     is_conected = models.BooleanField()
 
@@ -48,7 +48,7 @@ class Rpi(models.Model):
 
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            self.md5_name,
+            self.uid_name,
             {
                 "type": "send_message",
                 "message": message
@@ -62,7 +62,7 @@ class Rpi(models.Model):
         print(message)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            self.md5_name,
+            self.uid_name,
             {
                 "type": "send_message",
                 "message": message

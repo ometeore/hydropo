@@ -15,7 +15,7 @@
 
     <form action="{% url 'user:connexion' %}" method="POST">
         {% csrf_token %}
-
+        
         {% for field in form %}
             <div class="fieldWrapper">
                 {{ field.label_tag }}
@@ -26,6 +26,8 @@
         <input type="submit" value="connexion" style="display:block; margin:auto; margin-top: 15px;">
 
     </form>    
+
+    <p><a href="{% url 'user:password_reset' %}">Lost password?</a></p>
 
 </section>
 
