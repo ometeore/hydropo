@@ -43,7 +43,7 @@ def create(request):
             alt_user = MyUser.objects.get(email=form.cleaned_data["email"])
             return render(request, 'message/error.html', {'issue': "Mail already use"})
         except Exception as e:
-            LOGGER.info("[LOG] No issue with new user setup" + str(e))
+            print("[LOG] No issue with new user setup" + str(e))
 
         if form.cleaned_data["confirm_password"] == form.cleaned_data["password"]:
             user = MyUser.objects.create_user(form.cleaned_data["Username"])

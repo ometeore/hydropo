@@ -14,7 +14,7 @@ def do_nothing():
 
 class RpiTestCase(TestCase):
     def setUp(self):
-        self.rpi = Rpi.objects.create(name="test", md5_name="md5_test", last_connect=datetime(2013, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC), is_conected = True)
+        self.rpi = Rpi.objects.create(name="test", uid_name="md5_test", last_connect=datetime(2013, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC), is_conected = True)
 
         self.schedule_water1 = WaterSchedule.objects.create(begin=time(13,0,0), end=time(14,0,0), rpi=self.rpi)
 
