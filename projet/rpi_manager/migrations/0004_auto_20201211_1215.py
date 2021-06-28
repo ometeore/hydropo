@@ -6,19 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rpi_manager', '0003_ec_lightschedule'),
+        ("rpi_manager", "0003_ec_lightschedule"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ec',
-            name='objectif',
+            model_name="ec",
+            name="objectif",
             field=models.BooleanField(default=True),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='ph',
-            name='objectif',
+            model_name="ph",
+            name="objectif",
             field=models.BooleanField(default=True),
             preserve_default=False,
         ),

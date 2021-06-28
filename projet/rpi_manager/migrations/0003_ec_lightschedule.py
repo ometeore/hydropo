@@ -7,26 +7,54 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rpi_manager', '0002_ph'),
+        ("rpi_manager", "0002_ph"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='LightSchedule',
+            name="LightSchedule",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('begin', models.TimeField()),
-                ('end', models.TimeField()),
-                ('rpi', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rpi_manager.rpi')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("begin", models.TimeField()),
+                ("end", models.TimeField()),
+                (
+                    "rpi",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="rpi_manager.rpi",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Ec',
+            name="Ec",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateTimeField()),
-                ('value', models.IntegerField()),
-                ('rpi', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rpi_manager.rpi')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateTimeField()),
+                ("value", models.IntegerField()),
+                (
+                    "rpi",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="rpi_manager.rpi",
+                    ),
+                ),
             ],
         ),
     ]

@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rpi_manager', '0005_auto_20201215_1521'),
+        ("rpi_manager", "0005_auto_20201215_1521"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='waterschedule',
-            name='rpi',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='water', to='rpi_manager.rpi'),
+            model_name="waterschedule",
+            name="rpi",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="water",
+                to="rpi_manager.rpi",
+            ),
         ),
     ]

@@ -8,24 +8,32 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rpi_manager', '0006_auto_20201220_1538'),
+        ("rpi_manager", "0006_auto_20201220_1538"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rpi',
-            name='last_connect',
+            model_name="rpi",
+            name="last_connect",
             field=models.DateTimeField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='ec',
-            name='rpi',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ec', to='rpi_manager.rpi'),
+            model_name="ec",
+            name="rpi",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="ec",
+                to="rpi_manager.rpi",
+            ),
         ),
         migrations.AlterField(
-            model_name='ph',
-            name='rpi',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ph', to='rpi_manager.rpi'),
+            model_name="ph",
+            name="rpi",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="ph",
+                to="rpi_manager.rpi",
+            ),
         ),
     ]

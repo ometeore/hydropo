@@ -7,10 +7,14 @@
 
     <h1 class="text_center"> Système de gestion d'hydroponie </h1>
 
-    <ul class="h_flex">
+    <ul id="onglets" class="h_flex">
 
       {% for rpi in rpi %}
-        <li><a id="{{rpi.name}}" onclick="ShowOnglet(this.id)">{{ rpi.name }}</a> </li>
+        {% if rpi.is_conected == True %}
+          <li> <a id="{{rpi.name}}" onclick="ShowOnglet(this.id)" style="color: green;">{{ rpi.name }}</a> </li>
+        {% else %}
+          <li> <a id="{{rpi.name}}" onclick="ShowOnglet(this.id)" style="color: red;">{{ rpi.name }}</a> </li>
+        {% endif %}
       {% endfor %}
 
     </ul>

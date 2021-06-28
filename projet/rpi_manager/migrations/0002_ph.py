@@ -7,17 +7,31 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rpi_manager', '0001_initial'),
+        ("rpi_manager", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Ph',
+            name="Ph",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateTimeField()),
-                ('value', models.FloatField()),
-                ('rpi', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rpi_manager.rpi')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateTimeField()),
+                ("value", models.FloatField()),
+                (
+                    "rpi",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="rpi_manager.rpi",
+                    ),
+                ),
             ],
         ),
     ]
