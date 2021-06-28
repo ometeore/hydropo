@@ -12,4 +12,5 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
 
 script:
- - python projet/manage.py test
+  - cd projet/ && python manage.py test
+#- python projet/manage.py test
