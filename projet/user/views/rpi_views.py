@@ -26,7 +26,7 @@ def rpi_create(request):
         while Rpi.objects.filter(uid_name = temp_uid_name).count() != 0:
             temp_uid_name = temp_uid_name + 1
         rpi.uid_name = temp_uid_name
-        rpi.save()
+        rpi.save() 
         request.user.rpi.add(rpi)
         # request.user.save()
         userlog = request.user
