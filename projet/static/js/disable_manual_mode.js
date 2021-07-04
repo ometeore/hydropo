@@ -54,11 +54,23 @@ function switch_manual_mode(id, name) {
 function recupId(id) {
     var checkBox_true = document.getElementById(id);
     var checkBox_false = document.getElementsByClassName(checkBox_true.className);
-    for(i=0; i<checkBox_false.length; i++){
-        checkBox_false[i].checked = false;
+
+    if (checkBox_true.checked == true){
+        /* switch off all input */
+        for(i=0; i<checkBox_false.length; i++){
+            checkBox_false[i].checked = false;
+        }
+        checkBox_true.checked = true;
+        res = id.split('_')
+        var url_to_send = '/rpi/gestion?manual=True&tool=' + res[0] + '&name=' + res[1];
+        window.location.href = url_to_send;
     }
-    checkBox_true.checked = true;
-    res = id.split('_')
-    var url_to_send = '/rpi/gestion?manual=True&tool=' + res[0] + '&name=' + res[1];
-    window.location.href = url_to_send;
+    if(checkBox_true.checked == false) {
+        for(i=0; i<checkBox_false.length; i++){
+            checkBox_false[i].checked = false;
+        }
+        res = id.split('_')
+        var url_to_send = '/rpi/gestion?manual=True&name=' + res[1];
+        window.location.href = url_to_send;
+    }
 }

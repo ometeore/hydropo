@@ -23,9 +23,9 @@
 
     {% for rpi in rpi %}
       <div id="onglet_{{rpi.name}}" class="onglet">
-        <div class="section h_flex">
+        <div class="section h_flex" style="height:65vh;">
 
-          <div class="pannel" id="control_manual_pannel">
+          <div class="pannel" id="control_manual_pannel" style="overflow: scroll;">
 
             <div class="h_flex">
               <h2> mode manuel </h2>
@@ -81,7 +81,7 @@
 
           <!-- TABLEAU DES DERNIERES MESURES PH ET EC A REMPLACER VOIR CHART JS-->
 
-          <div class="pannel" id="last_measure_pannel">
+          <div class="pannel" id="last_measure_pannel" style="overflow: scroll;">
 
             <h2> Dernières mesures </h2>
             <div class="h_flex">
@@ -98,9 +98,9 @@
                     </tr>
                 </thead>
 
-                
+
                 <tbody>
-                  {% for ph in rpi.ph.all %}
+                  {% for ph in rpi.ph.all|dictsortreversed:"date" %}
                     <tr>
 
                       <td>

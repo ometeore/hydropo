@@ -5,11 +5,11 @@ python:
 install:
  - pip install -r requirements.txt
 
+env: DJANGO_SETTINGS_MODULE="hydropo.travis_settings"
+
 services:
  - postgresql
 
-before_script:
-  - psql -c 'create database travis_ci_test;' -U 
 
 script:
   - cd projet/ && python manage.py test
