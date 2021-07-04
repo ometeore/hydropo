@@ -55,11 +55,12 @@ class SocketConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def database_save_rpi_new_data(self, rpi_message):
         my_rpi = Rpi.objects.get(uid_name=self.room_name)
+        save_now = datetime.now()
         new_ec = Ec.objects.create(
-            date=datetime.now(), value=rpi_message["ec"], objectif=False, rpi=my_rpi
+            date = save_now, value=rpi_message["ec"], objectif=False, rpi=my_rpi
         )
         new_ec.save()
         new_ph = Ph.objects.create(
-            date = datetime.now(), value = rpi_message['ph'], objectif = False, rpi = my_rpi
+            date = save_now, value = rpi_message['ph'], objectif = False, rpi = my_rpi
         )
         new_ph.save()

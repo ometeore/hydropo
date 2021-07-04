@@ -58,6 +58,7 @@ class Rpi(models.Model):
         message = {}
         message["manual"] = True
         message["tool"] = tool
+        print("ASK FOR MANUAL MODE FOR ID: {}".format(self.uid_name))
         print(message)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(

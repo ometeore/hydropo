@@ -16,6 +16,8 @@ def hydropo_gestion(request):
         err = "No Rpi associated yet!"
         return render(request, "message/error.html", {"issue": err})
     else:
+        #creation of the new dict
+
         context_dict = {
             "rpi": user_rpi,
         }
@@ -23,7 +25,7 @@ def hydropo_gestion(request):
         if request.method == "GET":
             if request.GET.get("manual", False):
                 if request.GET.get("tool", None) is not None:
-                    rpi = get_object_or_404(Rpi, pk=request.GET["id"])
+                    rpi = get_object_or_404(Rpi, name=request.GET["name"])
                     rpi.broadcast_manual(request.GET["tool"])
         ################################################
         # the only form here is the one to change EC and Ph
@@ -69,6 +71,10 @@ def hydropo_gestion(request):
         ####### initiate the main screen with clean formularies ######
         else:
             phec = PhEc()
+
+        if request.GET.get("id", False):
+            rpi = get_object_or_404(Rpi, pk=request.GET["id"])
+            context_dict.update({"active_onglet": rpi.name})
 
         context_dict.update({"form_phec": phec})
 

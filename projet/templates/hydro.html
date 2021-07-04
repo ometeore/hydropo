@@ -1,4 +1,5 @@
 {% extends 'head_and_foot.html' %}
+{% load render_table from django_tables2 %}
 {% load static %}
 
 
@@ -30,66 +31,107 @@
               <h2> mode manuel </h2>
               
               <label class="rocker rocker-small">
-                <input type="checkbox" id="manual_mode_{{rpi.pk}}" class="manual_mode" onclick="switch_manual_mode({{rpi.pk}})">
+                <input type="checkbox" id="manual_mode_{{rpi.name}}" class="manual_mode" onclick="switch_manual_mode({{rpi.id}},{{rpi.name}})">
                 <span class="switch-left">Yes</span>
                 <span class="switch-right">No</span>
               </label>
             </div>
 
-            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+            <div class="h_flex hide disable_input_block_{{rpi.name}}">
               <p> pompe a eau </p>
               
               <label class="rocker rocker-small">
-                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="water_{{rpi.pk}}" onclick="recupId(this.id)">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="water_{{rpi.name}}" onclick="recupId(this.id)">
                 <span class="switch-left">On</span>
                 <span class="switch-right">Off</span>
               </label>
             </div>
 
-            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+            <div class="h_flex hide disable_input_block_{{rpi.name}}">
               <p> lumière </p>
               
               <label class="rocker rocker-small">
-                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="lights_{{rpi.pk}}" onclick="recupId(this.id)">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="lights_{{rpi.name}}" onclick="recupId(this.id)">
                 <span class="switch-left">On</span>
                 <span class="switch-right">Off</span>
               </label>
             </div>
 
-            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+            <div class="h_flex hide disable_input_block_{{rpi.name}}">
               <p> ev pH </p>
               
               <label class="rocker rocker-small">
-                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="ph_{{rpi.pk}}" onclick="recupId(this.id)">
+                <input type="checkbox" class="disable_input_{{rpi.name}}" id="ph_{{rpi.name}}" onclick="recupId(this.id)">
                 <span class="switch-left">On</span>
                 <span class="switch-right">Off</span>
               </label>
             </div>
 
-            <div class="h_flex hide disable_input_block_{{rpi.pk}}">
+            <div class="h_flex hide disable_input_block_{{rpi.name}}">
               <p> ev EC </p>
               
               <label class="rocker rocker-small">
-                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="ec_{{rpi.pk}}" onclick="recupId(this.id)">
+                <input type="checkbox" class="disable_input_{{rpi.pk}}" id="ec_{{rpi.name}}" onclick="recupId(this.id)">
                 <span class="switch-left">On</span>
                 <span class="switch-right">Off</span>
               </label>
             </div>
 
           </div>
+
+          <!-- TABLEAU DES DERNIERES MESURES PH ET EC A REMPLACER VOIR CHART JS-->
 
           <div class="pannel" id="last_measure_pannel">
 
             <h2> Dernières mesures </h2>
+            <div class="h_flex">
 
-            <div class="v_flex">
-              <p class="text_center" id="last_values"> ph: {{ rpi.ph.last.value }} </p>
-              <p class="text_center" id="last_dates"> {{ rpi.ph.last.date }} </p>
-              <p class="text_center" id="last_values"> ec: {{ rpi.ec.last.value }} </p>
-              <p class="text_center" id="last_dates"> {{ rpi.ec.last.date }} </p>
+            
+
+              <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>date</th>
+                        <th>ph</th>
+                        <th>ec</th>
+                    </tr>
+                </thead>
+
+                
+                <tbody>
+                  {% for ph in rpi.ph.all %}
+                    <tr>
+
+                      <td>
+                        {{ ph.date }}
+                      </td>
+
+                      <td>
+                        {{ ph.value }}
+                      </td>
+
+                      {% for ec in rpi.ec.all %}
+
+                        {% if ec.date == ph.date %}
+
+                        <td>
+                          {{ ec.value }}
+                        </td>
+
+                        {% endif %}
+                      
+                      {% endfor %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+
             </div>
-
+          
           </div>
+
 
         </div>
 

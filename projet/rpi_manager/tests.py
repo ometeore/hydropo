@@ -39,6 +39,39 @@ class RpiTestCase(TestCase):
         pass
 
 
+    def broadcast_schedule(self):
+        message = {}
+        message["manual"] = False
+        schedule_water_list = [
+            [str(elm.begin), str(elm.end)] for elm in self.water.all()
+        ]
+        message["water"] = schedule_water_list
+        schedule_lights_list = [
+            [str(elm.begin), str(elm.end)] for elm in self.lights.all()
+        ]
+        message["lights"] = schedule_lights_list
+        objectif_ph = self.ph.filter(objectif=True)
+        message["ph"] = objectif_ph[0].value
+        objectif_ec = self.ec.filter(objectif=True)
+        message["ec"] = objectif_ec[0].value
+
+        ####### This part is sending the message to the websocket in group call "group0"
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            self.uid_name, {"type": "send_message", "message": message}
+        )
+
+    def broadcast_manual(self, tool):
+        message = {}
+        message["manual"] = True
+        message["tool"] = tool
+        print(message)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            self.uid_name, {"type": "send_message", "message": message}
+        )
+
 ################################### TEST DES VIEWS RPI ####################################
 
 

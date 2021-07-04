@@ -22,4 +22,12 @@ function ShowFirst(){
         }
     }
 }
-ShowFirst();
+ShowFirst(); 
+
+
+/*
+const queryString = window.location.search;
+console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+const product = urlParams.get('id');
+console.log(product);*/
